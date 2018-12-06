@@ -5,8 +5,6 @@
 
 uint32_t state = 0;
 
-httpd_handle_t webserver = NULL;
-
 esp_err_t index_handler(httpd_req_t *req) {
     const char *tmpl =
             "<!DOCTYPE html>\n"
@@ -112,7 +110,7 @@ httpd_uri_t off_route = {
         .user_ctx  = NULL,
 };
 
-void register_and_log_route(httpd_handle_t *webserver, httpd_uri_t *route) {
+void register_and_log_route(httpd_handle_t webserver, httpd_uri_t *route) {
     static const char *method_strings[] =
             {
 #define XX(num, name, string) #string,
@@ -125,13 +123,14 @@ void register_and_log_route(httpd_handle_t *webserver, httpd_uri_t *route) {
 }
 
 void init_webserver(const tcpip_adapter_ip_info_t *ip) {
+    static httpd_handle_t webserver = NULL;
     httpd_config_t webserver_config = HTTPD_DEFAULT_CONFIG();
 
     ESP_ERROR_CHECK(httpd_start(&webserver, &webserver_config));
 
-    register_and_log_route(&webserver, &index_route);
-    register_and_log_route(&webserver, &on_route);
-    register_and_log_route(&webserver, &off_route);
+    register_and_log_route(webserver, &index_route);
+    register_and_log_route(webserver, &on_route);
+    register_and_log_route(webserver, &off_route);
 
     char port[6];
     sprintf((char *) port, "%d", webserver_config.server_port);
