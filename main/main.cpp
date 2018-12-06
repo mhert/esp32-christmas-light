@@ -13,6 +13,7 @@
 
 void on_wifi_connection_established(const tcpip_adapter_ip_info_t *ip) {
     init_webserver(ip);
+    init_sntp();
 }
 
 esp_err_t event_handler(void *ctx, system_event_t *event) {
