@@ -8,8 +8,8 @@
 #include "sntp.h"
 #include "webserver.h"
 
-#define WIFI_SSID ""
-#define WIFI_PASS ""
+#define WIFI_SSID CONFIG_WIFI_SSID
+#define WIFI_PASS CONFIG_WIFI_PASS
 
 void on_wifi_connection_established(const tcpip_adapter_ip_info_t *ip) {
     init_webserver(ip);
